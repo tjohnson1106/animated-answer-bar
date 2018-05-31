@@ -93,6 +93,7 @@ export default class App extends Component {
                 wasUserAnswer={wasUserAnswer}
                 answerResponses={answer.answerCount}
                 totalResponses={question.totalResponses}
+                onPress={() => this.handleAnswer(answer)}
               />
             );
           })}

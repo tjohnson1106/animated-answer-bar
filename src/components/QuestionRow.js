@@ -7,7 +7,14 @@ class QuestionRow extends Component {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
         <View>
-          <Text>{this.props.answer}</Text>
+          <Text
+            style={[
+              styles.answerText,
+              this.props.wasUserAnswer && styles.answerBoldText
+            ]}
+          >
+            {this.props.answer}
+          </Text>
           {this.props.answered && (
             <Text>
               {this.props.answerResponse}/{this.props.totalRespones}
@@ -18,5 +25,18 @@ class QuestionRow extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  answerText: {
+    marginBottom: 6,
+    fontSize: 20,
+    lineHeight: 25,
+    color: "#4A4A4A",
+    fontFamily: "quicksand-light"
+  },
+  answerBoldText: {
+    fontFamily: "quicksand-bold"
+  }
+});
 
 export default QuestionRow;

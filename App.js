@@ -8,6 +8,7 @@ import {
 import { Font } from "expo";
 
 import QuestionRow from "./src/components/QuestionRow";
+import { data } from "./src/data";
 
 export const loadFonts = () => {
   Font.loadAsync({

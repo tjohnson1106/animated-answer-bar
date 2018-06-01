@@ -6,13 +6,34 @@ import {
   StyleSheet
 } from "react-native";
 
+const getAnswerRowStyles = answered => {
+  const s = [styles.answerRow];
+  if (answered) {
+    s.push(styles.answerRowFilled);
+  }
+  return s;
+};
+
 class QuestionRow extends Component {
-  state = {};
+  static defaultProps = {
+    index: 0,
+    answered: false,
+    onPress: () => null,
+    wasUserAnswer: false,
+    answer: null,
+    answerResponses: 0,
+    totalRespones: 0
+  };
   render() {
+    //conditional based on indexed data
+    const rowStyle = [styles.row];
+    if (this.props.index === 0) {
+      rowStyle.push(styles.borderTop);
+    }
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
-        style={styles.row}
+        style={rowStyle}
         disabled={this.props.answered}
       >
         <View style={styles.innerRow}>
@@ -27,7 +48,9 @@ class QuestionRow extends Component {
           <View style={styles.answerRow}>
             {this.props.answered && (
               <Text style={styles.answerRowText}>
-                {this.props.answerResponse}/{this.props.totalRespones}
+                {this.props.answerResponses}/{
+                  this.props.totalRespones
+                }
               </Text>
             )}
           </View>
@@ -48,6 +71,17 @@ const styles = StyleSheet.create({
   answerBoldText: {
     fontFamily: "quicksand-bold"
   },
+  answerRow: {
+    height: 30,
+
+    borderRadius: 15,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  answerRowFilled: {
+    backgroundColor: "#F5F4F6"
+  },
   answerRowText: {
     fontSize: 20,
     lineHeight: 25,
@@ -63,8 +97,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#F5F4F6"
   },
-  answerRow: {
-    height: 30
+  borderTop: {
+    borderTopWidth: 1,
+    borderTopColor: "#F5F4F6"
   }
 });
 

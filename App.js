@@ -8,9 +8,10 @@ import {
 import { Font } from "expo";
 
 import QuestionRow from "./src/components/QuestionRow";
-import data from "./src/api/data";
 import Container from "./src/components/Container";
 import Card from "./src/components/Card";
+
+import data from "./src/api/data";
 
 export const loadFonts = () =>
   Font.loadAsync({
@@ -23,7 +24,7 @@ export const loadFonts = () =>
 export default class App extends Component {
   state = {
     fontsReady: false,
-    userAnswer: false,
+    userAnswer: null,
     question: data
   };
 
@@ -97,6 +98,7 @@ export default class App extends Component {
                 answerResponses={answer.answerCount}
                 totalResponses={question.totalResponses}
                 onPress={() => this.handleAnswer(answer)}
+                isCorrectAnswer={answer.correct}
               />
             );
           })}

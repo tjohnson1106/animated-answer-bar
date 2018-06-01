@@ -14,6 +14,28 @@ const getAnswerRowStyles = answered => {
   return s;
 };
 
+const getOverLayStyles = (
+  isCorrectAnswer,
+  wasUserAnswer,
+  answered
+) => {
+  const s = [styles.answerBar];
+
+  if (isCorrectAnswer) {
+    s.push(styles.answerBarCorrect);
+  } else if (wasUserAnswer) {
+    s.push(styles.answerBarWrong);
+  } else {
+    s.push(styles.answerBarNeutral);
+  }
+
+  if (answered) {
+    s.push({ width: 100 });
+  }
+
+  return;
+};
+
 class QuestionRow extends Component {
   static defaultProps = {
     index: 0,
@@ -45,7 +67,8 @@ class QuestionRow extends Component {
           >
             {this.props.answer}
           </Text>
-          <View style={styles.answerRow}>
+          <View style={getAnswerRowStyles(this.props.answered)}>
+            <View style={getOverLayStyles()} />
             {this.props.answered && (
               <Text style={styles.answerRowText}>
                 {this.props.answerResponses}/{
@@ -100,6 +123,22 @@ const styles = StyleSheet.create({
   borderTop: {
     borderTopWidth: 1,
     borderTopColor: "#F5F4F6"
+  },
+  answerBar: {
+    borderRadius: 15,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0
+  },
+  answerBarCorrect: {
+    color: "#BAE4CF"
+  },
+  answerBarWrong: {
+    color: "#F0C6D6"
+  },
+  answerBarNeutral: {
+    color: "#D8D8D8"
   }
 });
 

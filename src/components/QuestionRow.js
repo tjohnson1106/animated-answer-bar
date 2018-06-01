@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
 
 class QuestionRow extends Component {
   state = {};
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <View>
+      <TouchableOpacity
+        onPress={this.props.onPress}
+        style={styles.row}
+        disabled={this.props.answered}
+      >
+        <View style={styles.innerRow}>
           <Text
             style={[
               styles.answerText,
@@ -15,11 +24,13 @@ class QuestionRow extends Component {
           >
             {this.props.answer}
           </Text>
-          {this.props.answered && (
-            <Text>
-              {this.props.answerResponse}/{this.props.totalRespones}
-            </Text>
-          )}
+          <View style={styles.answerRow}>
+            {this.props.answered && (
+              <Text style={styles.answerRowText}>
+                {this.props.answerResponse}/{this.props.totalRespones}
+              </Text>
+            )}
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -36,6 +47,24 @@ const styles = StyleSheet.create({
   },
   answerBoldText: {
     fontFamily: "quicksand-bold"
+  },
+  answerRowText: {
+    fontSize: 20,
+    lineHeight: 25,
+    color: "#4A4A4A",
+    fontFamily: "quicksand-light"
+  },
+  innerRow: {
+    marginHorizontal: 10
+  },
+  row: {
+    paddingVertical: 10,
+    paddingHorizontal: -10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F5F4F6"
+  },
+  answerRow: {
+    height: 30
   }
 });
 

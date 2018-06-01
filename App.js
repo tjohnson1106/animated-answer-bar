@@ -8,16 +8,17 @@ import {
 import { Font } from "expo";
 
 import QuestionRow from "./src/components/QuestionRow";
-import { data } from "./src/data";
+import data from "./src/api/data";
+import Container from "./src/components/Container";
+import Card from "./src/components/Card";
 
-export const loadFonts = () => {
+export const loadFonts = () =>
   Font.loadAsync({
     "bangers-regular": require("./assets/fonts/Bangers-Regular.ttf"),
     "quicksand-regular": require("./assets/fonts/Quicksand-Regular.ttf"),
     "quicksand-light": require("./assets/fonts/Quicksand-Light.ttf"),
     "quicksand-bold": require("./assets/fonts/Quicksand-Bold.ttf")
   });
-};
 
 export default class App extends Component {
   state = {
@@ -89,6 +90,7 @@ export default class App extends Component {
             return (
               <QuestionRow
                 key={answer.answer}
+                index={index}
                 answer={answer.answer}
                 answered={answered}
                 wasUserAnswer={wasUserAnswer}
@@ -105,10 +107,10 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  questionText: {
+    fontSize: 30,
+    marginBottom: 20,
+    fontFamily: "quicksand-light",
+    color: "#4A4A4A"
   }
 });

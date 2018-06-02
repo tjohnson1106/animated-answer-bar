@@ -33,7 +33,7 @@ const getOverLayStyles = (
     s.push({ width: 100 });
   }
 
-  return;
+  return s;
 };
 
 class QuestionRow extends Component {
@@ -44,14 +44,28 @@ class QuestionRow extends Component {
     wasUserAnswer: false,
     answer: null,
     answerResponses: 0,
-    totalRespones: 0
+    totalResponses: 0
   };
+
+  state = {
+    width: 0
+  };
+
+  handleLayout = ({}) => {
+    this.setState({ width: nativeEvent.layout.width });
+  };
+
   render() {
     //conditional based on indexed data
     const rowStyle = [styles.row];
     if (this.props.index === 0) {
       rowStyle.push(styles.borderTop);
     }
+
+    const percentage =
+      this.props.answerResponses / this.props.totalResponses;
+    const rowWidth = Math.floor(this.state.width * percentage);
+
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
@@ -67,12 +81,23 @@ class QuestionRow extends Component {
           >
             {this.props.answer}
           </Text>
-          <View style={getAnswerRowStyles(this.props.answered)}>
-            <View style={getOverLayStyles()} />
+          <View
+            style={getAnswerRowStyles(this.props.answered)}
+            onLayout={this.handleLayout}
+          >
+            <View
+              style={[
+                getOverLayStyles(
+                  this.props.isCorrectAnswer,
+                  this.props.wasUserAnswer
+                ),
+                this.props.answered && { width: rowWidth }
+              ]}
+            />
             {this.props.answered && (
               <Text style={styles.answerRowText}>
                 {this.props.answerResponses}/{
-                  this.props.totalRespones
+                  this.props.totalResponses
                 }
               </Text>
             )}
@@ -132,13 +157,13 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   answerBarCorrect: {
-    color: "#BAE4CF"
+    backgroundColor: "#BAE4CF"
   },
   answerBarWrong: {
-    color: "#F0C6D6"
+    backgroundColor: "#F0C6D6"
   },
   answerBarNeutral: {
-    color: "#D8D8D8"
+    backgroundColor: "#D8D8D8"
   }
 });
 

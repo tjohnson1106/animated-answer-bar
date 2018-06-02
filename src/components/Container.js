@@ -15,15 +15,15 @@ class Container extends Component {
     screenHeight: height
   };
 
-  onContentSizeChange = (contentWidth, ContentHeight) => {
+  onContentSizeChange = (contentWidth, contentHeight) => {
     this.scrollView.scrollTo({ y: 0, animated: false });
-    this.setState({ screenHeight: ContentHeight });
+    this.setState({ screenHeight: contentHeight });
   };
 
   render() {
     const scrollEnabled = this.state.screenHeight > height;
     return (
-      <SafeAreaView style={StyleSheet.areaViewContainer}>
+      <SafeAreaView style={styles.areaViewContainer}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="#468189"
@@ -31,7 +31,7 @@ class Container extends Component {
         <ScrollView
           ref={ref => (this.scrollView = ref)}
           style={{ flex: 1 }}
-          contentContainerStyle={styles.scrollView}
+          contentContainerStyle={styles.scrollview}
           scrollEnabled={scrollEnabled}
           onContentSizeChange={this.onContentSizeChange}
         >
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#85D4E7"
   },
-  scrollView: {
+  scrollview: {
     flexGrow: 1
   },
   content: {

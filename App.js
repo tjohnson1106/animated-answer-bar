@@ -110,7 +110,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   questionText: {
-    fontSize: 30,
+    fontSize: 28,
     marginBottom: 20,
     fontFamily: "quicksand-light",
     color: "#4A4A4A"

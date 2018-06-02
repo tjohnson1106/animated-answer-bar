@@ -65,11 +65,8 @@ class QuestionRow extends Component {
   };
 
   animateAnswerValue = () => {
-    const percentage =
-      this.props.answerResponses / this.props.totalResponses;
-    const rowWidth = Math.floor(this.state.width * percentage);
     Animated.timing(this._animatedWidth, {
-      toValue: rowWidth,
+      toValue: 1,
       useNativeDriver: true
     }).start();
   };
@@ -80,6 +77,10 @@ class QuestionRow extends Component {
     if (this.props.index === 0) {
       rowStyle.push(styles.borderTop);
     }
+
+    /*prettier-ignore*/
+    const percentage = this.props.answerResponses / this.props.totalResponses;
+    const rowWidth = Math.floor(this.state.width * percentage);
 
     return (
       <TouchableOpacity
@@ -106,7 +107,17 @@ class QuestionRow extends Component {
                   this.props.isCorrectAnswer,
                   this.props.wasUserAnswer
                 ),
-                this.props.answered && { width: this._animatedWidth }
+                this.props.answered && {
+                  width: rowWidth,
+                  transform: [
+                    {
+                      scaleX: this._animatedWidth.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0, 1]
+                      })
+                    }
+                  ]
+                }
               ]}
             />
             {this.props.answered && (

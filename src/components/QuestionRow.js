@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Animated
 } from "react-native";
 
 const getAnswerRowStyles = answered => {
@@ -51,8 +52,26 @@ class QuestionRow extends Component {
     width: 0
   };
 
-  handleLayout = ({}) => {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.answered === true) {
+      this.animateAnswerValue();
+    }
+  }
+
+  _animatedWidth = new Animated.Value(0);
+
+  handleOnLayout = ({ nativeEvent }) => {
     this.setState({ width: nativeEvent.layout.width });
+  };
+
+  animateAnswerValue = () => {
+    const percentage =
+      this.props.answerResponses / this.props.totalResponses;
+    const rowWidth = Math.floor(this.state.width * percentage);
+    Animated.timing(this._animatedWidth, {
+      toValue: rowWidth,
+      useNativeDriver: true
+    }).start();
   };
 
   render() {
@@ -61,10 +80,6 @@ class QuestionRow extends Component {
     if (this.props.index === 0) {
       rowStyle.push(styles.borderTop);
     }
-
-    const percentage =
-      this.props.answerResponses / this.props.totalResponses;
-    const rowWidth = Math.floor(this.state.width * percentage);
 
     return (
       <TouchableOpacity
@@ -83,15 +98,15 @@ class QuestionRow extends Component {
           </Text>
           <View
             style={getAnswerRowStyles(this.props.answered)}
-            onLayout={this.handleLayout}
+            onLayout={this.handleOnLayout}
           >
-            <View
+            <Animated.View
               style={[
                 getOverLayStyles(
                   this.props.isCorrectAnswer,
                   this.props.wasUserAnswer
                 ),
-                this.props.answered && { width: rowWidth }
+                this.props.answered && { width: this._animatedWidth }
               ]}
             />
             {this.props.answered && (
